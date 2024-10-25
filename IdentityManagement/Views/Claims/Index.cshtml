@@ -1,0 +1,34 @@
+﻿@model IEnumerable<System.Security.Claims.Claim> // collection(key-value şeklinde)
+@{
+	ViewData["Title"] = "User Claims";
+}
+
+<h1 class="bg-primary m-1 p-1 text-white">User Claims</h1>
+
+<a asp-action="Create" asp-controller="Claims" class="btn btn-secondary">Create new claim</a>
+
+<table class="table table-sm table-bordered">
+	<tr>
+		<th>Subject</th>
+		<th>Issuer</th>
+		<th>Type</th>
+		<th>Value</th>
+		<th>Delete</th>
+	</tr>
+
+	@foreach(var claim in Model.OrderBy(x => x.Type))
+	{
+		<tr>
+			<td>@claim.Subject</td>
+			<td>@claim.Issuer</td>
+			<td>@claim.Type</td>
+			<td>@claim.Value</td>
+			<td>
+				<form asp-action="Delete" asp-controller="Claims" method="post">
+					<input type="hidden" name="claimValues" value="@claim.Type;@claim.Value;@claim.Issuer" />
+					<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+				</form>
+			</td>
+		</tr>
+	}
+</table> 
